@@ -1,0 +1,34 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}Empleados | Recursos humanos{% endblock %}
+{% block body_class %}app-page{% endblock %}
+
+{% block extra_css %}<link rel="stylesheet" href="{% static 'css/rh.css' %}">{% endblock %}
+
+{% block content %}
+    <section class="dashboard-header">
+        <div>
+            <span class="eyebrow">Recursos humanos</span>
+            <h1 class="inventory-title">Empleados registrados</h1>
+            <p>Consulta el personal registrado en la plataforma.</p>
+        </div>
+        <span class="dashboard-date">Módulo RH</span>
+    </section>
+
+        <section class="inventory-grid rh-module-grid" aria-label="Opciones de Recursos Humanos">
+            {% for section in sections %}
+                <a class="inventory-card" id="{{ section.anchor }}" href="{% url section.url %}">
+                    <span class="inventory-card-icon" aria-hidden="true">
+                        {% if section.icon == 'personas' %}
+                            <svg viewBox="0 0 24 24" focusable="false"><circle cx="9" cy="8" r="3"></circle><path d="M3.5 19a5.5 5.5 0 0 1 11 0M16 5.5a2.5 2.5 0 0 1 0 5M16 14a4.5 4.5 0 0 1 4.5 5"></path></svg>
+                        {% else %}
+                            <svg viewBox="0 0 24 24" focusable="false"><circle cx="9" cy="8" r="3"></circle><path d="M3.5 19a5.5 5.5 0 0 1 11 0M16 12v8M12 16h8"></path></svg>
+                        {% endif %}
+                    </span>
+                    <h2>{{ section.title }}</h2>
+                    <p>{{ section.description }}</p>
+                </a>
+            {% endfor %}
+        </section>
+{% endblock %}

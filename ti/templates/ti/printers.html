@@ -1,0 +1,55 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}Impresoras | Inventario TI{% endblock %}
+{% block body_class %}app-page{% endblock %}
+
+{% block extra_css %}<link rel="stylesheet" href="{% static 'css/ti.css' %}">{% endblock %}
+
+{% block content %}
+    {% if messages %}
+        <div class="catalog-messages" aria-live="polite">
+            {% for message in messages %}<div class="catalog-message catalog-message-{{ message.tags }}"><span class="catalog-message-icon" aria-hidden="true">&#10003;</span><span>{{ message }}</span></div>{% endfor %}
+        </div>
+    {% endif %}
+    <section class="dashboard-header">
+        <div>
+            <span class="eyebrow">Inventario TI</span>
+            <h1 class="inventory-title">Impresoras</h1>
+            <p>Consulta y registra los equipos de impresión.</p>
+        </div>
+        <a class="catalog-submit printer-register-link" href="{% url 'ti:register-printer' %}" aria-label="Nuevo registro" title="Nuevo registro"><svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M12 5v14M5 12h14"></path></svg><span>Nuevo registro</span></a>
+    </section>
+
+    <nav class="printer-tabs" aria-label="Estado de impresoras">
+        <a class="printer-tab{% if active_tab != 'inactive' %} printer-tab-active{% endif %}" href="{% url 'ti:printers' %}">Activas <span>{{ active_count }}</span></a>
+        <a class="printer-tab{% if active_tab == 'inactive' %} printer-tab-active{% endif %}" href="{% url 'ti:printers' %}?tab=inactive">Bajas <span>{{ inactive_count }}</span></a>
+    </nav>
+
+    <section class="printer-table-panel" aria-label="Listado de impresoras">
+        <div class="printer-table-scroll">
+            <table class="printer-table">
+                <thead>
+                    <tr><th>Sucursal</th><th>Ubicación</th><th>Marca</th><th>Modelo</th><th>Número de serie</th><th>MAC</th><th>IP</th><th>Estatus</th><th>Proveedor</th>{% if active_tab == 'inactive' %}<th>Motivo de baja</th><th>Fecha de baja</th>{% endif %}<th>Acciones</th></tr>
+                </thead>
+                <tbody>
+                    {% for printer in printers %}
+                        <tr><td>{{ printer.sucursal|default:'No aplica' }}</td><td>{{ printer.ubicacion|default:'No aplica' }}</td><td>{{ printer.marca|default:'No aplica' }}</td><td>{{ printer.modelo|default:'No aplica' }}</td><td>{{ printer.numero_serie|default:'No aplica' }}</td><td>{{ printer.mac|default:'No aplica' }}</td><td>{{ printer.ip|default:'No aplica' }}</td><td>{{ printer.estatus|default:'No aplica' }}</td><td>{{ printer.proveedor|default:'No aplica' }}</td>{% if active_tab == 'inactive' %}<td>{{ printer.motivo_baja|default:'No aplica' }}</td><td>{{ printer.fecha_baja|date:'d/m/Y'|default:'No aplica' }}</td>{% endif %}<td class="printer-actions"><a class="catalog-action catalog-action-edit" href="{% url 'ti:edit-printer' printer.pk %}" aria-label="Editar impresora" title="Editar impresora"><svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="m4 16-.7 4.7L8 20l11.2-11.2a2.1 2.1 0 0 0-3-3L4 16Z"></path><path d="m14.8 7.2 2 2"></path></svg></a>{% if printer.activa %}<form method="post" action="{% url 'ti:retire-printer' printer.pk %}" data-printer-confirm><button class="catalog-action catalog-action-delete" type="submit" aria-label="Dar de baja impresora" title="Dar de baja impresora"><svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M5 12h14M13 6l6 6-6 6"></path></svg></button></form>{% endif %}</td></tr>
+                    {% empty %}<tr><td class="printer-empty" colspan="{% if active_tab == 'inactive' %}12{% else %}10{% endif %}">No hay impresoras en esta pestaña.</td></tr>{% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </section>
+    <div class="catalog-confirm-backdrop" data-printer-dialog hidden>
+        <div class="catalog-confirm-dialog" role="dialog" aria-modal="true" aria-labelledby="printer-confirm-title">
+            <span class="catalog-confirm-icon" aria-hidden="true">!</span>
+            <h2 id="printer-confirm-title">¿Dar de baja?</h2>
+            <p>La impresora pasará a la pestaña Bajas.</p>
+            <label class="printer-retire-label" for="printer-retire-reason">Motivo de baja</label>
+            <textarea id="printer-retire-reason" class="printer-retire-reason" maxlength="255" placeholder="Escribe el motivo" required></textarea>
+            <div class="catalog-confirm-actions"><button type="button" class="catalog-confirm-cancel" data-printer-cancel aria-label="Cancelar" title="Cancelar"><svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M19 12H5M11 6l-6 6 6 6"></path></svg></button><button type="button" class="catalog-confirm-delete" data-printer-accept><span>Dar de baja</span></button></div>
+        </div>
+    </div>
+{% endblock %}
+
+{% block extra_js %}<script src="{% static 'js/printers.js' %}"></script>{% endblock %}

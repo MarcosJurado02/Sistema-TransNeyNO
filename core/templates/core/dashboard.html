@@ -1,0 +1,33 @@
+{% extends 'base.html' %}
+
+{% block title %}Dashboard | Sistema Plataforma{% endblock %}
+{% block body_class %}app-page{% endblock %}
+
+{% block content %}
+    <section class="dashboard-header">
+        <div>
+            <span class="eyebrow">Panel principal</span>
+            <h1>Bienvenido, {{ empleado.nombre|default:user.get_username }}</h1>
+            <p>Consulta y administra la información operativa de tu área.</p>
+        </div>
+        <span class="dashboard-date">Portal interno</span>
+    </section>
+
+    <section class="dashboard-grid" aria-label="Resumen del sistema">
+        <article class="dashboard-card dashboard-card-highlight">
+            <span class="card-kicker">Acceso</span>
+            <h2>Plataforma Trans Neyno</h2>
+            <p>Tu sesión está activa y lista para trabajar.</p>
+        </article>
+        <article class="dashboard-card">
+            <span class="card-kicker">Sucursal</span>
+            <h2>{{ empleado.sucursal.nombre|default:'Sin asignar' }}</h2>
+            <p>Ubicación operativa</p>
+        </article>
+        <article class="dashboard-card">
+            <span class="card-kicker">Área</span>
+            <h2>{{ empleado.area|default:'Colaborador' }}</h2>
+            <p>Área de trabajo</p>
+        </article>
+    </section>
+{% endblock %}

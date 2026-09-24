@@ -1,0 +1,318 @@
+.printer-register-link {
+    display: inline-flex;
+    width: fit-content !important;
+    min-width: 6.25rem;
+    min-height: 2.2rem;
+    gap: 0.35rem;
+    padding: 0.48rem 0.65rem;
+    color: var(--navy-950);
+    font-size: 0.76rem;
+    text-decoration: none;
+}
+
+.printer-register-link svg {
+    width: 1rem;
+    height: 1rem;
+    fill: none;
+    stroke: currentColor;
+    stroke-linecap: round;
+    stroke-width: 2;
+}
+
+.printer-tabs {
+    display: flex;
+    gap: 0.35rem;
+    max-width: 70rem;
+    margin: 0 auto 1rem;
+    border-bottom: 1px solid var(--line);
+}
+
+.printer-tab {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.45rem;
+    padding: 0.7rem 0.9rem;
+    border-bottom: 2px solid transparent;
+    color: var(--muted);
+    font-size: 0.75rem;
+    text-decoration: none;
+}
+
+.printer-tab span {
+    display: grid;
+    min-width: 1.35rem;
+    height: 1.35rem;
+    place-items: center;
+    border-radius: 50%;
+    background: var(--navy-800);
+    font-size: 0.62rem;
+}
+
+.printer-tab-active {
+    border-color: var(--gold);
+    color: var(--text);
+}
+
+.printer-tab-active span {
+    color: var(--navy-950);
+    background: var(--gold);
+}
+
+.printer-table-panel {
+    max-width: 70rem;
+    margin: 0 auto;
+    border: 1px solid var(--line);
+    border-radius: 0.35rem;
+    background: var(--navy-900);
+}
+
+.printer-table-scroll {
+    max-height: 32rem;
+    overflow: auto;
+}
+
+.printer-table {
+    width: 100%;
+    min-width: 68rem;
+    border-collapse: collapse;
+}
+
+.printer-table th,
+.printer-table td {
+    padding: 0.8rem 0.9rem;
+    border-bottom: 1px solid var(--line);
+    text-align: left;
+    white-space: nowrap;
+}
+
+.printer-table th {
+    position: sticky;
+    top: 0;
+    z-index: 1;
+    color: var(--muted);
+    background: var(--navy-800);
+    font-size: 0.62rem;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+}
+
+.printer-table td {
+    color: var(--text);
+    font-size: 0.74rem;
+}
+
+.printer-actions {
+    display: flex;
+    align-items: center;
+    gap: 0.35rem;
+}
+
+.printer-actions form {
+    margin: 0;
+}
+
+.printer-actions .catalog-action {
+    display: inline-flex;
+    align-items: center;
+    width: 2rem;
+    height: 2rem;
+    justify-content: center;
+    padding: 0;
+}
+
+.printer-actions .catalog-action svg {
+    width: 1rem;
+    height: 1rem;
+    fill: none;
+    stroke: currentColor;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+    stroke-width: 1.8;
+}
+
+.printer-actions .catalog-action-edit {
+    border-color: rgba(194, 118, 22, 0.5);
+    color: var(--gold-light);
+    background: rgba(194, 118, 22, 0.08);
+}
+
+.printer-actions .catalog-action-delete {
+    border-color: rgba(196, 61, 69, 0.5);
+    color: #b52d38;
+    background: rgba(196, 61, 69, 0.08);
+}
+
+.printer-actions .catalog-action-edit:hover {
+    color: var(--navy-950);
+    background: var(--gold);
+}
+
+.printer-actions .catalog-action-delete:hover {
+    color: #ffffff;
+    background: #c43d45;
+}
+
+body:has(.app-sidebar-collapsed) .printer-table {
+    min-width: 0;
+    table-layout: fixed;
+}
+
+body:has(.app-sidebar-collapsed) .printer-table th,
+body:has(.app-sidebar-collapsed) .printer-table td {
+    padding: 0.65rem 0.45rem;
+    overflow-wrap: anywhere;
+    white-space: normal;
+}
+
+body:has(.app-sidebar-collapsed) .printer-table th {
+    font-size: 0.56rem;
+}
+
+body:has(.app-sidebar-collapsed) .printer-table td {
+    font-size: 0.66rem;
+}
+
+.printer-empty {
+    padding: 3rem !important;
+    color: var(--muted) !important;
+    text-align: center !important;
+}
+
+.printer-form {
+    max-width: 70rem;
+    margin: 0 auto;
+    padding: 1.25rem;
+    border: 1px solid var(--line);
+    border-radius: 0.35rem;
+    background: var(--navy-900);
+}
+
+.printer-form-grid {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 0.9rem;
+}
+
+.printer-field {
+    display: grid;
+    gap: 0.35rem;
+}
+
+.printer-field label {
+    color: var(--muted);
+    font-size: 0.7rem;
+}
+
+.printer-field input,
+.printer-field select,
+.printer-field textarea {
+    width: 100%;
+    padding: 0.65rem 0.7rem;
+    border: 1px solid var(--line);
+    border-radius: 0.25rem;
+    color: var(--text);
+    background: var(--navy-950);
+    font: inherit;
+}
+
+.printer-field select {
+    appearance: none;
+    padding-right: 2.2rem;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='14' height='14' viewBox='0 0 24 24' fill='none' stroke='%235c6b7d' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='m6 9 6 6 6-6'/%3E%3C/svg%3E");
+    background-position: right 0.7rem center;
+    background-repeat: no-repeat;
+}
+
+html:not(.dark-theme) body .printer-field input,
+html:not(.dark-theme) body .printer-field select,
+html:not(.dark-theme) body .printer-field textarea,
+html:not(.dark-theme) body .printer-retire-reason {
+    color: var(--text);
+    background: #ffffff;
+}
+
+.printer-field input:focus,
+.printer-field select:focus,
+.printer-field textarea:focus {
+    border-color: var(--gold);
+    outline: 0;
+}
+
+.printer-retire-label {
+    display: block;
+    margin-top: 0.8rem;
+    color: var(--muted);
+    font-size: 0.72rem;
+    text-align: left;
+}
+
+.printer-retire-reason {
+    width: 100%;
+    min-height: 4.5rem;
+    margin-top: 0.35rem;
+    padding: 0.65rem;
+    border: 1px solid var(--line);
+    border-radius: 0.25rem;
+    color: var(--text);
+    background: var(--navy-950);
+    font: inherit;
+    resize: vertical;
+}
+
+.printer-field-error small {
+    color: #c43d45;
+    font-size: 0.65rem;
+}
+
+.printer-form-actions {
+    display: flex;
+    justify-content: flex-end;
+    gap: 0.7rem;
+    margin-top: 1.25rem;
+}
+
+.printer-form-actions .catalog-submit {
+    width: auto;
+    min-width: 11rem;
+    margin-top: 0;
+}
+
+.printer-cancel-action {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.35rem;
+    min-height: 2.45rem;
+    padding: 0.55rem 0.75rem;
+    border: 1px solid var(--line);
+    border-radius: 0.3rem;
+    color: var(--muted);
+    background: transparent;
+    font-size: 0.72rem;
+    text-decoration: none;
+}
+
+.printer-cancel-action:hover {
+    border-color: var(--gold);
+    color: var(--text);
+    background: var(--navy-800);
+}
+
+.printer-cancel-action svg {
+    width: 1rem;
+    height: 1rem;
+    fill: none;
+    stroke: currentColor;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+    stroke-width: 1.8;
+}
+
+@media (max-width: 760px) {
+    .printer-form-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .printer-register-link {
+        width: fit-content !important;
+    }
+}

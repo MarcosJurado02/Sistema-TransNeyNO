@@ -1,0 +1,98 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}Empleados registrados | Recursos humanos{% endblock %}
+{% block body_class %}app-page{% endblock %}
+
+{% block extra_css %}<link rel="stylesheet" href="{% static 'css/rh.css' %}">{% endblock %}
+
+{% block content %}
+    <section class="dashboard-header">
+        <div>
+            <span class="eyebrow">Recursos humanos</span>
+            <h1 class="inventory-title">Empleados registrados</h1>
+            <p>Consulta el personal registrado en la plataforma.</p>
+        </div>
+        <div class="employee-list-actions"><a class="catalog-submit employee-register-link" href="{% url 'rh:employee-create' %}">Registrar empleado</a><a class="dashboard-date dashboard-back-link" href="{% url 'rh:employees' %}">Volver a RH</a></div>
+    </section>
+
+    {% if messages %}
+        <div class="catalog-messages" aria-live="polite">
+            {% for message in messages %}<div class="catalog-message catalog-message-{{ message.tags }}"><span class="catalog-message-icon" aria-hidden="true">&#10003;</span><span>{{ message }}</span><button type="button" class="catalog-message-close" aria-label="Cerrar notificación">&times;</button></div>{% endfor %}
+        </div>
+    {% endif %}
+
+    <section class="employee-panel" aria-label="Todos los empleados registrados">
+        <div class="employee-panel-header">
+            <h2>{% if active_tab == 'inactive' %}Empleados dados de baja{% else %}Empleados activos{% endif %}</h2>
+            <span>{{ total_empleados }} personas</span>
+        </div>
+        <nav class="employee-tabs" aria-label="Estado de empleados">
+            <a class="employee-tab{% if active_tab != 'inactive' %} employee-tab-active{% endif %}" href="{% url 'rh:employee-list' %}">Activos</a>
+            <a class="employee-tab{% if active_tab == 'inactive' %} employee-tab-active{% endif %}" href="{% url 'rh:employee-list' %}?tab=inactive">Bajas</a>
+        </nav>
+        <form class="employee-filters" method="get">
+            <input type="hidden" name="tab" value="{{ active_tab }}">
+            <label class="employee-name-filter">Buscar empleado<input type="search" name="nombre" value="{{ current_nombre }}" placeholder="Nombre o número"></label>
+            <label>Sucursal<select name="sucursal"><option value="">Todas</option>{% for sucursal in sucursales %}<option value="{{ sucursal.pk }}"{% if current_sucursal == sucursal.pk|stringformat:'s' %} selected{% endif %}>{{ sucursal.nombre }}</option>{% endfor %}</select></label>
+            <label>Jefe directo<select name="jefe"><option value="">Todos</option>{% for jefe in jefes_directos %}<option value="{{ jefe.pk }}"{% if current_jefe == jefe.pk|stringformat:'s' %} selected{% endif %}>{{ jefe.nombre }}</option>{% endfor %}</select></label>
+            <label>Puesto<select name="puesto"><option value="">Todos</option>{% for puesto_item in puestos %}<option value="{{ puesto_item.nombre }}"{% if current_puesto == puesto_item.nombre %} selected{% endif %}>{{ puesto_item.nombre }}</option>{% endfor %}</select></label>
+            <button class="employee-filter-submit" type="submit">Filtrar</button>
+            {% if current_nombre or current_sucursal or current_jefe or current_puesto %}<a class="employee-filter-clear" href="?tab={{ active_tab }}">Limpiar</a>{% endif %}
+        </form>
+        <div class="employee-table-wrap">
+            <table class="employee-table">
+                <thead>
+                    <tr>
+                        <th>No. empleado</th>
+                        <th>Empleado</th>
+                        <th>Tipo</th>
+                        <th>Puesto</th>
+                        <th>Sucursal</th>
+                        <th>Jefe directo</th>
+                        <th>Alta</th>
+                        {% if active_tab == 'inactive' %}<th>Fecha de baja</th>{% endif %}
+                        <th>Acciones</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for empleado in empleados %}
+                        <tr>
+                            <td>{{ empleado.numero_empleado|default:'Sin número' }}</td>
+                            <td><strong>{{ empleado.nombre }}</strong></td>
+                            <td>{{ empleado.tipo_empleado|default:'Sin tipo' }}</td>
+                            <td>{{ empleado.puesto|default:'Sin puesto' }}</td>
+                            <td>{{ empleado.sucursal|default:'Sin sucursal' }}</td>
+                            <td>{{ empleado.jefe_directo|default:'Sin jefe' }}</td>
+                            <td>{{ empleado.fecha_alta|date:'d/m/Y'|default:'Sin fecha' }}</td>
+                            {% if active_tab == 'inactive' %}<td>{{ empleado.fecha_baja|date:'d/m/Y'|default:'Sin fecha' }}</td>{% endif %}
+                            <td class="employee-actions"><a class="employee-icon-action employee-edit-link" href="{% url 'rh:employee-edit' empleado.pk %}" aria-label="Editar empleado" title="Editar empleado"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="m4 16-.7 4.7L8 20l11.2-11.2a2.1 2.1 0 0 0-3-3L4 16Z"></path><path d="m14.8 7.2 2 2"></path></svg></a>{% if active_tab != 'inactive' %}<form method="post" action="{% url 'rh:employee-retire' empleado.pk %}" data-employee-confirm>{% csrf_token %}<button class="employee-icon-action employee-retire-link" type="submit" aria-label="Dar de baja empleado" title="Dar de baja empleado"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"></path></svg></button></form>{% endif %}</td>
+                        </tr>
+                    {% empty %}
+                        <tr><td class="employee-empty" colspan="{% if active_tab == 'inactive' %}9{% else %}8{% endif %}">No hay empleados registrados.</td></tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+        {% if page_obj.paginator.num_pages > 1 %}
+        <nav class="employee-pagination" aria-label="Paginación de empleados">
+            {% if page_obj.has_previous %}<a href="?{{ filter_query }}&page={{ page_obj.previous_page_number }}" aria-label="Página anterior">&#8592;</a>{% endif %}
+            <span>Página {{ page_obj.number }} de {{ page_obj.paginator.num_pages }}</span>
+            {% if page_obj.has_next %}<a href="?{{ filter_query }}&page={{ page_obj.next_page_number }}" aria-label="Página siguiente">&#8594;</a>{% endif %}
+        </nav>
+        {% endif %}
+    </section>
+
+    {% if active_tab != 'inactive' %}
+    <div class="catalog-confirm-backdrop" data-employee-dialog hidden>
+        <div class="catalog-confirm-dialog" role="dialog" aria-modal="true" aria-labelledby="employee-confirm-title">
+            <span class="catalog-confirm-icon" aria-hidden="true">!</span>
+            <h2 id="employee-confirm-title">¿Dar de baja?</h2>
+            <p>El empleado pasará a la pestaña Bajas con la fecha de hoy.</p>
+            <div class="catalog-confirm-actions"><button type="button" class="catalog-confirm-cancel" data-employee-cancel>Cancelar</button><button type="button" class="catalog-confirm-delete" data-employee-accept>Dar de baja</button></div>
+        </div>
+    </div>
+    {% endif %}
+{% endblock %}
+
+{% block extra_js %}<script src="{% static 'js/rh.js' %}"></script>{% endblock %}

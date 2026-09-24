@@ -1,0 +1,32 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}{% if editing %}Editar empleado{% else %}Registrar empleado{% endif %} | Recursos humanos{% endblock %}
+{% block body_class %}app-page{% endblock %}
+{% block extra_css %}<link rel="stylesheet" href="{% static 'css/rh.css' %}">{% endblock %}
+
+{% block content %}
+    <section class="dashboard-header">
+        <div>
+            <span class="eyebrow">Recursos humanos</span>
+            <h1 class="inventory-title">{% if editing %}Editar empleado{% else %}Registrar empleado{% endif %}</h1>
+            <p>Los campos sin información pueden dejarse vacíos.</p>
+        </div>
+        <a class="dashboard-date dashboard-back-link" href="{% url 'rh:employee-list' %}">Volver a empleados</a>
+    </section>
+
+    <form class="employee-form" method="post">
+        {% csrf_token %}
+        {% for field in form %}
+            <div class="employee-field{% if field.errors %} employee-field-error{% endif %}">
+                {{ field.label_tag }}
+                {{ field }}
+                {% for error in field.errors %}<small>{{ error }}</small>{% endfor %}
+            </div>
+        {% endfor %}
+        <div class="employee-form-actions">
+            <a class="employee-cancel-action" href="{% url 'rh:employee-list' %}">Cancelar</a>
+            <button class="catalog-submit" type="submit">{% if editing %}Guardar cambios{% else %}Registrar empleado{% endif %}</button>
+        </div>
+    </form>
+{% endblock %}

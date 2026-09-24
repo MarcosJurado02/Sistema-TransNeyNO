@@ -1,0 +1,58 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}{{ title }} | Catálogos{% endblock %}
+{% block body_class %}app-page{% endblock %}
+
+{% block extra_css %}<link rel="stylesheet" href="{% static 'css/catalogos.css' %}">{% endblock %}
+
+{% block content %}
+    {% if messages %}
+        <div class="catalog-messages" aria-live="polite">
+            {% for message in messages %}<div class="catalog-message catalog-message-{{ message.tags }}"><span class="catalog-message-icon" aria-hidden="true">{% if 'success' in message.tags %}&#10003;{% else %}!{% endif %}</span><span>{{ message }}</span><button type="button" class="catalog-message-close" aria-label="Cerrar notificación">&times;</button></div>{% endfor %}
+        </div>
+    {% endif %}
+    <section class="dashboard-header">
+        <div>
+            <span class="eyebrow">Catálogos</span>
+            <h1 class="inventory-title">{{ title }}</h1>
+            <p>{{ items|length }} {{ item_label }} registrados</p>
+        </div>
+        <a class="dashboard-date dashboard-back-link" href="{% url 'catalogos:home' %}">Volver a catálogos</a>
+    </section>
+
+    <section class="catalog-form-layout">
+        <form class="catalog-form" method="post">
+            {% csrf_token %}
+            <h2>{{ heading }}</h2>
+            {{ form.as_p }}
+            <button class="catalog-submit" type="submit"><span>{% if editing %}Guardar cambios{% else %}Guardar registro{% endif %}</span><span aria-hidden="true">&#8594;</span></button>
+        </form>
+
+        <section class="employee-panel catalog-list" aria-label="{{ title }} registrados">
+            <div class="employee-panel-header">
+                <h2>{{ title }}</h2>
+                <span>{{ items|length }} registrados</span>
+            </div>
+            <ul>
+                {% for entry in items %}<li><div class="catalog-item-info"><strong>{{ entry.object.nombre }}</strong>{% if entry.object.ciudad %}<small>{{ entry.object.ciudad }}</small>{% elif entry.object.descripcion %}<small>{{ entry.object.descripcion }}</small>{% endif %}<span class="catalog-status{% if not entry.active %} catalog-status-inactive{% endif %}">{% if entry.active %}Activo{% else %}Inactivo{% endif %}</span></div><div class="catalog-item-actions"><a href="{% if title == 'Sucursales' %}{% url 'catalogos:edit-branch' entry.object.pk %}{% elif title == 'Departamentos' %}{% url 'catalogos:edit-department' entry.object.pk %}{% elif title == 'Puestos' %}{% url 'catalogos:edit-position' entry.object.pk %}{% elif title == 'Jefes directos' %}{% url 'catalogos:edit-direct-boss' entry.object.pk %}{% else %}{% url 'catalogos:edit-employee-type' entry.object.pk %}{% endif %}" class="catalog-action catalog-action-edit">Editar</a><form method="post" action="{% if title == 'Sucursales' %}{% url 'catalogos:toggle-branch' entry.object.pk %}{% elif title == 'Departamentos' %}{% url 'catalogos:toggle-department' entry.object.pk %}{% elif title == 'Puestos' %}{% url 'catalogos:toggle-position' entry.object.pk %}{% elif title == 'Jefes directos' %}{% url 'catalogos:toggle-direct-boss' entry.object.pk %}{% else %}{% url 'catalogos:toggle-employee-type' entry.object.pk %}{% endif %}">{% csrf_token %}<button class="catalog-action" type="submit">{% if entry.active %}Desactivar{% else %}Activar{% endif %}</button></form><form method="post" action="{% if title == 'Sucursales' %}{% url 'catalogos:delete-branch' entry.object.pk %}{% elif title == 'Departamentos' %}{% url 'catalogos:delete-department' entry.object.pk %}{% elif title == 'Puestos' %}{% url 'catalogos:delete-position' entry.object.pk %}{% elif title == 'Jefes directos' %}{% url 'catalogos:delete-direct-boss' entry.object.pk %}{% else %}{% url 'catalogos:delete-employee-type' entry.object.pk %}{% endif %}" data-confirm-delete>{% csrf_token %}<button class="catalog-action catalog-action-delete" type="submit">Eliminar</button></form></div></li>
+                {% empty %}<li class="employee-empty">No hay registros todavía.</li>{% endfor %}
+            </ul>
+        </section>
+    </section>
+    <div class="catalog-confirm-backdrop" data-confirm-dialog hidden>
+        <div class="catalog-confirm-dialog" role="dialog" aria-modal="true" aria-labelledby="catalog-confirm-title">
+            <span class="catalog-confirm-icon" aria-hidden="true">!</span>
+            <h2 id="catalog-confirm-title">¿Eliminar registro?</h2>
+            <p>Esta acción no se puede deshacer.</p>
+            <div class="catalog-confirm-actions">
+                <button type="button" class="catalog-confirm-cancel" data-confirm-cancel>Cancelar</button>
+                <button type="button" class="catalog-confirm-delete" data-confirm-accept>Eliminar</button>
+            </div>
+        </div>
+    </div>
+{% endblock %}
+
+{% block extra_js %}
+    <script src="{% static 'js/catalogos.js' %}"></script>
+{% endblock %}

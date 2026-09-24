@@ -1,0 +1,380 @@
+.employee-table-wrap {
+    overflow-x: auto;
+}
+
+.employee-table {
+    width: 100%;
+    min-width: 0;
+    table-layout: fixed;
+    border-collapse: collapse;
+}
+
+.employee-table th,
+.employee-table td {
+    padding: 0.8rem 0.7rem;
+    border-bottom: 1px solid rgba(198, 169, 125, 0.14);
+    text-align: left;
+    font-size: 0.76rem;
+    overflow-wrap: anywhere;
+    white-space: normal;
+}
+
+.employee-pagination {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 1rem;
+    padding: 0.9rem 1.25rem;
+    border-top: 1px solid var(--line);
+    color: var(--muted);
+    font-size: 0.72rem;
+}
+
+.employee-pagination a {
+    display: inline-grid;
+    width: 2rem;
+    height: 2rem;
+    place-items: center;
+    border: 1px solid var(--line);
+    border-radius: 0.2rem;
+    color: var(--muted);
+    text-decoration: none;
+}
+
+.employee-pagination a:hover {
+    border-color: var(--gold);
+    color: var(--text);
+}
+
+.employee-table th {
+    color: #71829d;
+    font-size: 0.62rem;
+    letter-spacing: 0.07em;
+    text-transform: uppercase;
+}
+
+.employee-table td {
+    color: var(--muted);
+}
+
+.employee-table tbody tr:last-child td {
+    border-bottom: 0;
+}
+
+.employee-table td:first-child {
+    color: var(--text);
+}
+
+.employee-table td strong,
+.employee-table td small {
+    display: block;
+}
+
+.employee-table td small {
+    margin-top: 0.2rem;
+    color: #71829d;
+    font-size: 0.58rem;
+}
+
+.employee-status {
+    display: inline-block;
+    padding: 0.25rem 0.45rem;
+    border-radius: 0.2rem;
+    color: #102719;
+    background: #8bd3a5;
+    font-size: 0.64rem;
+    font-weight: 700;
+    text-transform: uppercase;
+}
+
+.employee-status-inactive {
+    color: #321b18;
+    background: #e5a39a;
+}
+
+.employee-tabs {
+    display: flex;
+    gap: 0.35rem;
+    padding: 0 1.25rem;
+    border-bottom: 1px solid var(--line);
+}
+
+.employee-tab {
+    padding: 0.7rem 0.9rem;
+    border-bottom: 2px solid transparent;
+    color: var(--muted);
+    font-size: 0.75rem;
+    text-decoration: none;
+}
+
+.employee-tab-active {
+    border-color: var(--gold);
+    color: var(--text);
+}
+
+.employee-filters {
+    display: grid;
+    grid-template-columns: minmax(12rem, 1.2fr) repeat(3, minmax(0, 1fr)) auto auto;
+    align-items: end;
+    gap: 0.65rem;
+    padding: 0.9rem 1.25rem;
+    border-bottom: 1px solid var(--line);
+}
+
+.employee-filters label {
+    display: grid;
+    gap: 0.3rem;
+    color: var(--muted);
+    font-size: 0.64rem;
+    text-transform: uppercase;
+}
+
+.employee-filters select {
+    min-width: 0;
+    min-height: 2.25rem;
+    padding: 0.45rem 0.55rem;
+    border: 1px solid var(--line);
+    border-radius: 0.25rem;
+    color: var(--text);
+    background: var(--navy-950);
+    font: inherit;
+    font-size: 0.72rem;
+}
+
+.employee-filters input[type="search"] {
+    min-width: 0;
+    min-height: 2.25rem;
+    padding: 0.45rem 0.55rem;
+    border: 1px solid var(--line);
+    border-radius: 0.25rem;
+    color: var(--text);
+    background: var(--navy-950);
+    font: inherit;
+    font-size: 0.72rem;
+}
+
+html:not(.dark-theme) body .employee-filters input[type="search"] {
+    background: #ffffff;
+}
+
+html:not(.dark-theme) body .employee-filters select {
+    background: #ffffff;
+}
+
+.employee-filter-submit,
+.employee-filter-clear {
+    min-height: 2.25rem;
+    padding: 0.45rem 0.7rem;
+    border: 1px solid var(--gold);
+    border-radius: 0.25rem;
+    color: var(--navy-950);
+    background: var(--gold);
+    cursor: pointer;
+    font-size: 0.68rem;
+    text-decoration: none;
+}
+
+.employee-filter-clear {
+    display: inline-flex;
+    align-items: center;
+    border-color: var(--line);
+    color: var(--muted);
+    background: transparent;
+}
+
+.employee-actions {
+    display: flex;
+    align-items: center;
+    gap: 0.35rem;
+}
+
+.employee-actions form {
+    margin: 0;
+}
+
+.employee-icon-action {
+    display: inline-grid;
+    width: 2rem;
+    height: 2rem;
+    place-items: center;
+    padding: 0;
+    border: 1px solid var(--line);
+    border-radius: 0.2rem;
+    background: transparent;
+    cursor: pointer;
+}
+
+.employee-icon-action svg {
+    width: 1rem;
+    height: 1rem;
+    fill: none;
+    stroke: currentColor;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+    stroke-width: 1.8;
+}
+
+.employee-edit-link {
+    border-color: rgba(194, 118, 22, 0.5);
+    color: var(--gold-light);
+}
+
+.employee-edit-link:hover {
+    color: var(--navy-950);
+    background: var(--gold);
+}
+
+.employee-retire-link {
+    border-color: rgba(196, 61, 69, 0.5);
+    color: #b52d38;
+}
+
+.employee-retire-link:hover {
+    color: #ffffff;
+    background: #c43d45;
+}
+
+.employee-list-actions {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+}
+
+.employee-register-link {
+    width: auto;
+    min-height: 2.4rem;
+    padding: 0.55rem 0.8rem;
+    text-decoration: none;
+}
+
+.employee-edit-link {
+    color: var(--gold-light);
+    font-size: 0.72rem;
+    text-decoration: none;
+}
+
+.employee-edit-link:hover {
+    color: var(--text);
+}
+
+@media (min-width: 761px) and (max-width: 1100px) {
+    .employee-table th,
+    .employee-table td {
+        padding: 0.65rem 0.45rem;
+        font-size: 0.7rem;
+    }
+
+    .employee-table th {
+        font-size: 0.56rem;
+    }
+
+    .employee-icon-action {
+        width: 1.75rem;
+        height: 1.75rem;
+    }
+}
+
+.employee-form {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 1rem;
+    max-width: 70rem;
+    margin: 0 auto;
+    padding: 1.25rem;
+    border: 1px solid var(--line);
+    border-radius: 0.35rem;
+    background: var(--navy-900);
+}
+
+.employee-field {
+    display: grid;
+    gap: 0.35rem;
+}
+
+.employee-field label {
+    color: var(--muted);
+    font-size: 0.72rem;
+}
+
+.employee-field input,
+.employee-field select {
+    width: 100%;
+    min-height: 2.5rem;
+    padding: 0.6rem 0.7rem;
+    border: 1px solid var(--line);
+    border-radius: 0.25rem;
+    color: var(--text);
+    background: var(--navy-950);
+    font: inherit;
+}
+
+html:not(.dark-theme) body .employee-field input,
+html:not(.dark-theme) body .employee-field select {
+    color: var(--text);
+    background: #ffffff;
+}
+
+.employee-field input:focus,
+.employee-field select:focus {
+    border-color: var(--gold);
+    outline: 0;
+}
+
+.employee-field-error small {
+    color: #c43d45;
+    font-size: 0.65rem;
+}
+
+.employee-form-actions {
+    display: flex;
+    grid-column: 1 / -1;
+    justify-content: flex-end;
+    gap: 0.7rem;
+    margin-top: 0.25rem;
+}
+
+.employee-form-actions .catalog-submit {
+    width: auto;
+    margin-top: 0;
+}
+
+.employee-cancel-action {
+    display: inline-flex;
+    align-items: center;
+    min-height: 2.45rem;
+    padding: 0.55rem 0.75rem;
+    border: 1px solid var(--line);
+    border-radius: 0.3rem;
+    color: var(--muted);
+    font-size: 0.72rem;
+    text-decoration: none;
+}
+
+@media (max-width: 760px) {
+    .employee-filters {
+        grid-template-columns: 1fr;
+    }
+
+    .employee-filters {
+        grid-template-columns: 1fr;
+    }
+
+    .employee-list-actions {
+        align-items: flex-start;
+        flex-direction: column;
+    }
+
+    .employee-form {
+        grid-template-columns: 1fr;
+    }
+
+    .employee-form-actions {
+        grid-column: auto;
+    }
+}
+
+@media (max-width: 760px) {
+    .rh-module-grid {
+        grid-template-columns: 1fr;
+    }
+}
