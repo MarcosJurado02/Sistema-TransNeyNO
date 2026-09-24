@@ -1,0 +1,33 @@
+{% extends 'base.html' %}
+
+{% block title %}Dashboard | Sistema Plataforma{% endblock %}
+{% block body_class %}app-page{% endblock %}
+
+{% block content %}
+    <section class="dashboard-header">
+        <div>
+            <span class="eyebrow">Panel principal</span>
+            <h1>Bienvenido, {{ user.get_username }}</h1>
+            <p>Este es tu panel de {{ profile }}.</p>
+        </div>
+        <span class="dashboard-date">Portal interno</span>
+    </section>
+
+    <section class="dashboard-grid" aria-label="Resumen del sistema">
+        <article class="dashboard-card dashboard-card-highlight">
+            <span class="card-kicker">Perfil</span>
+            <h2>{{ profile }}</h2>
+            <p>Tu sesión está activa y lista para trabajar.</p>
+        </article>
+        <article class="dashboard-card">
+            <span class="card-kicker">Acceso</span>
+            <h2>Dashboard principal</h2>
+            <p>Contenido general del sistema.</p>
+        </article>
+        <article class="dashboard-card">
+            <span class="card-kicker">Estado</span>
+            <h2>Sesión activa</h2>
+            <p>Autenticación confirmada.</p>
+        </article>
+    </section>
+{% endblock %}
